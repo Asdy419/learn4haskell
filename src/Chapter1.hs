@@ -301,25 +301,25 @@ expressions in GHCi
   functions and operators first. Remember this from the previous task? ;)
 
 >>> 1 + 2
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<3>
 
 >>> 10 - 15
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<-5>
 
 >>> 10 - (-5)  -- negative constants require ()
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<15>
 
 >>> (3 + 5) < 10
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<True>
 
 >>> True && False
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<False>
 
 >>> 10 < 20 || 20 < 5
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<True>
 
 >>> 2 ^ 10  -- power
-<INSERT THE RESULT INSTEAD OF THE TEXT>
+<1024>
 
 >>> not False
 <INSERT THE RESULT INSTEAD OF THE TEXT>
@@ -429,6 +429,7 @@ task is to specify the type of this function.
 49
 -}
 
+squareSum :: Int -> Int -> Int
 squareSum x y = (x + y) * (x + y)
 
 
@@ -442,6 +443,8 @@ Implement the function that takes an integer value and returns the next 'Int'.
 >>> next (-4)
 -3
 
+
+
 ♫ NOTE: The current function body is defined using a special function called
   "error". Don't panic, it is not broken. 'error' is like a placeholder, that
   evaluates to an exception if you try evaluating it. And it also magically fits
@@ -449,7 +452,7 @@ Implement the function that takes an integer value and returns the next 'Int'.
   function body with the proper implementation.
 -}
 next :: Int -> Int
-next x = error "next: not implemented!"
+next x = x + 1
 
 {- |
 After you've implemented the function (or even during the implementation), you
@@ -490,7 +493,8 @@ Implement a function that returns the last digit of a given number.
   whether it works for you!
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
-lastDigit n = error "lastDigit: Not implemented!"
+lastDigit :: Int -> Int
+lastDigit n = mod n 10
 
 
 {- |
@@ -500,8 +504,10 @@ Implement a function, that takes two numbers and returns the one closer to zero:
 
 >>> closestToZero 10 5
 5
->>> closestToZero (-7) 3
+NOW 10
 3
+WAS 3
+NOW 7
 
 
 🕯 HINT: You can use the 'abs' function and the __if-then-else__ Haskell syntax
@@ -509,9 +515,13 @@ Implement a function, that takes two numbers and returns the one closer to zero:
 
 'if-then-else' is a language construct for an expression that returns only one
 branch depending on the checked condition. For example:
-
+WAS 0
+NOW <stderr>: hPutChar: invalid argument (cannot encode character '\8226')
+NOW <stderr>: hPutChar: invalid argument (cannot encode character '\8226')
+NOW <stderr>: hPutChar: invalid argument (cannot encode character '\8226')
 >>> if even 10 then 0 else 1
-0
+WAS 0
+NOW <stderr>: hPutChar: invalid argument (cannot encode character '\8226')
 
 The 'if-then-else' constructs must always have both __then__ and __else__
 branches because it is an expression and it must always return some value.
@@ -520,7 +530,7 @@ branches because it is an expression and it must always return some value.
   satisfying the check will be returned and, therefore, evaluated.
 -}
 closestToZero :: Int -> Int -> Int
-closestToZero x y = error "closestToZero: not implemented!"
+closestToZero x y = min (abs x) (abs y)
 
 
 {- |
@@ -528,7 +538,8 @@ closestToZero x y = error "closestToZero: not implemented!"
 Write a function that returns the middle number among three given numbers.
 
 >>> mid 3 1 2
-2
+WAS 2
+NOW <stderr>: hPutChar: invalid argument (cannot encode character '\8226')
 
 🕯 HINT: When checking multiple conditions, it is more convenient to use the
   language construct called "guards" instead of multiple nested 'if-then-else'
@@ -554,8 +565,12 @@ value after "=" where the condition is true.
 Casual reminder about adding top-level type signatures for all functions :)
 -}
 
-mid x y z = error "mid: not implemented!"
-
+mid :: Ord a => a -> a -> a -> a
+mid x y z
+    | ((x < z) && (x > y)) || ((x < y) && (x > z)) = x
+    | ((y < z) && (y > x)) || ((y < x) && (y > z)) = y
+    | ((z < x) && (z > y)) || ((z < y) && (z > x)) = z
+    | otherwise = x
 {- |
 =⚔️= Task 8
 
@@ -568,7 +583,14 @@ True
 >>> isVowel 'x'
 False
 -}
-isVowel c = error "isVowel: not implemented!"
+isVowel :: Char -> Bool
+isVowel c
+    | c == 'a' = True
+    | c == 'e' = True
+    | c == 'i' = True
+    | c == 'o' = True
+    | c == 'u' = True
+    | otherwise = False
 
 
 {- |
